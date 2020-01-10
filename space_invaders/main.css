@@ -1,0 +1,39 @@
+@import url('https://rsms.me/inter/inter.css');
+html { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+    html { font-family: 'Inter var', sans-serif; }
+}
+
+.hidden {
+    display: none;
+}
+
+.game_active {
+    background-color: #1f0b30;
+    color: #ffffff;
+}
+.game_active #information_panel {
+    /*background-color: rgba(205, 65, 240, 0.57) !important;*/
+}
+
+#information_panel {
+    text-align: center;
+
+}
+#starship {
+    background-color: aquamarine;
+    height: 25px;
+    width: 25px;
+    position: absolute;
+}
+
+.enemy  {
+    position: absolute;
+}
+
+body {
+    position: fixed;
+    overflow-y: scroll;
+    width: 100%;
+}
+
