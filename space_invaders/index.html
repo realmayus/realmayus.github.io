@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Space Attack</title>
+    <link rel="stylesheet" href="main.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="space_attack.js"></script>
+</head>
+<body id="body">
+
+<div id="information_panel">
+    <h1>space invaders</h1>
+    <p id="score" class="hidden">Score: -1</p>
+    <a href="#" onclick="start_game()" id="start_game_btn">Start Game</a>
+    <a href="#" onclick="exit_game()" id="exit_game_btn" class="hidden">Exit Game</a>
+</div>
+
+<div id="canvas">
+    <p id='healthlabel' class="hidden">starship's health</p>
+    <progress id="health" value="100" max="100" class="hidden"></progress>
+    <div id="starship" class="hidden"></div>
+</div>
+
+</body>
+</html>
