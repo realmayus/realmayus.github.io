@@ -26,6 +26,7 @@ function start_game() {
     document.getElementById("healthlabel").classList.toggle("hidden"); //make visible
     document.getElementById("health").classList.toggle("hidden"); //make visible
     document.getElementById("score").classList.toggle("hidden"); //make visible
+    document.getElementById("howtoplay").classList.toggle("hidden"); //make invisible
 
     document.getElementById("body").classList.toggle("game_active"); //change colorscheme
     document.getElementById("exit_game_btn").classList.toggle("game_active"); //change colorscheme
