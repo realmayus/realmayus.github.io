@@ -96,38 +96,47 @@ function move_starship() {
             // left arrow pressed
             case "37":
                 var pos = $('#starship').offset();
-
-                $('#starship').css({
-                    position:'absolute',
-                    left: pos.left - 20
-                });
+                if(pos.left >= 0) {
+                    $('#starship').css({
+                        position:'absolute',
+                        left: pos.left - 30
+                    });
+                }
                 break;
             // up arrow pressed
             case "38":
                 var pos = $('#starship').offset();
+                if(pos.top >= 0) {
+                    $('#starship').css({
+                        position:'absolute',
+                        top: pos.top - 30
+                    });
+                }
 
-                $('#starship').css({
-                    position:'absolute',
-                    top: pos.top - 20
-                });
                 break;
             // right arrow pressed
             case "39":
-                var pos = $('#starship').offset();
+                console.log("iH" + window.innerWidth);
 
-                $('#starship').css({
-                    position:'absolute',
-                    left: pos.left + 20
-                });
+                var pos = $('#starship').offset();
+                if(pos.left  <= window.innerWidth - 35) {
+                    $('#starship').css({
+                        position:'absolute',
+                        left: pos.left + 15
+                    });
+                }
+
                 break;
             // down arrow pressed
             case "40":
                 var pos = $('#starship').offset();
-
-                $('#starship').css({
-                    position:'absolute',
-                    top: pos.top + 20
-                });
+                console.log("iH" + window.innerHeight);
+                if(pos.top <= window.innerHeight - 25) {
+                    $('#starship').css({
+                        position:'absolute',
+                        top: pos.top + 15
+                    });
+                }
                 break;
 
             case "32":
