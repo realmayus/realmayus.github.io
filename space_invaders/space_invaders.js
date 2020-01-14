@@ -235,7 +235,7 @@ function check_enemy_bullet_collision(element) {
     let bulletPos = $( element ).offset();
 
     if(bulletPos.left <= starshipLeft && bulletPos.left >= starshipLeft - 25 && bulletPos.top >= starshipTop && bulletPos.top <= starshipTop + 25) {
-        health -= 0; //TODO
+        health -= 10; //TODO
     }
 }
 
