@@ -8,6 +8,9 @@ let enemyList = [];
 let score = 0;
 let keys = {};
 let health = 100.0;
+let wave = 1;
+let wave_ongoing = true;
+let wave_enemies_spawned = 0;
 
 function start_game() {
     let keys = {};
@@ -26,6 +29,10 @@ function start_game() {
     document.getElementById("healthlabel").classList.toggle("hidden"); //make visible
     document.getElementById("health").classList.toggle("hidden"); //make visible
     document.getElementById("score").classList.toggle("hidden"); //make visible
+
+    document.getElementById("enemies").classList.toggle("hidden"); //make visible
+    document.getElementById("wave").classList.toggle("hidden"); //make visible
+
     document.getElementById("howtoplay").classList.toggle("hidden"); //make invisible
 
     document.getElementById("body").classList.toggle("game_active"); //change colorscheme
@@ -50,6 +57,10 @@ $(document).keyup(function (e) {
 });
 
 function game_loop() {
+
+    document.getElementById('wave').innerText = "Wave: " + wave;
+
+
     move_starship(keys);
 
     let pos = $('#starship').offset();
@@ -57,35 +68,47 @@ function game_loop() {
 
     starshipTop = pos.top;
 
-    console.log(starshipLeft + ", " + starshipTop);
 
     for(enemy of enemyList) {
         control_enemy(enemy);
     }
 
-    if(Math.round(Math.random()*100) === 69) { // nice.
-        spawn_enemy(starshipTop, 10);
+    if(wave_enemies_spawned >= wave * 5) {
+        wave_enemies_spawned = 0;
+        wave_ongoing = false;
+        document.getElementById('enemies').innerText = "Next wave in 5 seconds";
+
+        setTimeout(schedule_new_wave, 5000);
+    } else {
+        document.getElementById('enemies').innerText = "Invaders: " + wave_enemies_spawned + "/" + (wave*5);
+    }
+
+    if(wave_ongoing) {
+        if(Math.round(Math.random()*100) === 69) { // nice.
+            spawn_enemy(starshipTop, 10, 10 * wave);
+            wave_enemies_spawned++;
+        }
     }
 
     for(enemy of enemyList) {
         if(Math.round(Math.random()*10) === 8) {
-            render_enemy_bullet($(enemy).offset().left, $(enemy).offset().top, );
+            render_enemy_bullet($(enemy).offset().left, $(enemy).offset().top);
         }
     }
     document.getElementById('score').innerText = "Score: " + score;
-
-    console.log(Math.round(health));
 
     document.getElementById('health').value = health;
 
     if(health <= 0) {
         alert("Game over! Score: " + score);
         exit_game();
-        start_game();
-        exit_game();
-        start_game();
-        exit_game();
     }
+}
+
+function schedule_new_wave() {
+    console.log("scheduled new wave!");
+    wave_ongoing = true;
+    wave++;
 }
 
 function move_starship() {
@@ -117,7 +140,6 @@ function move_starship() {
                 break;
             // right arrow pressed
             case "39":
-                console.log("iH" + window.innerWidth);
 
                 var pos = $('#starship').offset();
                 if(pos.left  <= window.innerWidth - 35) {
@@ -131,7 +153,6 @@ function move_starship() {
             // down arrow pressed
             case "40":
                 var pos = $('#starship').offset();
-                console.log("iH" + window.innerHeight);
                 if(pos.top <= window.innerHeight - 25) {
                     $('#starship').css({
                         position:'absolute',
@@ -214,7 +235,7 @@ function check_enemy_bullet_collision(element) {
     let bulletPos = $( element ).offset();
 
     if(bulletPos.left <= starshipLeft && bulletPos.left >= starshipLeft - 25 && bulletPos.top >= starshipTop && bulletPos.top <= starshipTop + 25) {
-        health -= 25;
+        health -= 0; //TODO
     }
 }
 
@@ -232,7 +253,7 @@ function delete_all_bullets() {
     }
 }
 
-function spawn_enemy(startY, startX) {
+function spawn_enemy(startY, startX, damage) {
     if(enemyList.length < active_enemy_limit) {
         var div = document.createElement("DIV");
         div.classList.add("enemy");
@@ -241,11 +262,15 @@ function spawn_enemy(startY, startX) {
         div.style.height = "30px";
         div.style.top = startY + "px";
         div.style.right = startX + "px";
-        div.style.backgroundColor = "rgb(234, 132, 134)";
+        div.style.backgroundColor = "rgb(234, " + get_red_tone(damage) + ", " + get_red_tone(damage) + ")";
 
         document.body.appendChild(div);
         enemyList.push(div);
     }
+}
+
+function get_red_tone(damage) {
+    return 255 * Math.pow(1.05, -damage);
 }
 
 function control_enemy(element) {
